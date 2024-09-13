@@ -46,17 +46,26 @@ spec:
                   bridge: vmbr0
               sourceNode: pve1
               templateID: 101
+              numSockets: 1
+              numCores: 4
+              memoryMiB: 4096
             workerNode:
               network:
                 default:
                   bridge: vmbr0
               sourceNode: pve1
               templateID: 101
+              numSockets: 1
+              numCores: 4
+              memoryMiB: 4096
             loadBalancer:
               network:
                 default:
                   bridge: vmbr0
               sourceNode: pve1
               templateID: 101
+              numSockets: 1
+              numCores: 4
+              memoryMiB: 4096
           sshAuthorizedKeys:
             - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINo+Mazsj4x9O5mGKLVwic8zUWmg/gihsEK3ZLZ7yt3f nils@nixos
