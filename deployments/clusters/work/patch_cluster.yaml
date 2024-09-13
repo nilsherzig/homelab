@@ -9,8 +9,10 @@ spec:
     workers:
       machineDeployments:
         - class: proxmox-worker
+          name: proxmox-worker-pool
           replicas: 1
         - class: proxmox-loadbalancer
+          name: proxmox-loadbalancer-pool
           replicas: 0
     variables:
       - name: controlPlaneEndpoint
