@@ -21,7 +21,7 @@ spec:
           port: 6443
       - name: ipv4Config
         value:
-          addresses: [10.10.10.20-10.10.10.30]
+          addresses: [10.10.10.100-10.10.10.110]
       - name: cloneSpec
         value:
           sshAuthorizedKeys:
