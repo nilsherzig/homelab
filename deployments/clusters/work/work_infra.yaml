@@ -4,7 +4,7 @@ kind: Cluster
 metadata:
   labels:
     cluster.x-k8s.io/proxmox-cluster-cni: cilium
-  name: work-cache-infra
+  name: work-infra
 spec:
   topology:
     class: proxmox-clusterclass-cilium-v0.1.0
@@ -27,13 +27,13 @@ spec:
           # - pve3
       - name: controlPlaneEndpoint
         value:
-          host: 10.10.10.13
+          host: 10.10.10.11
           port: 6443
       - name: dnsServers
         value: [8.8.8.8, 8.8.4.4]
       - name: ipv4Config
         value:
-          addresses: [10.10.10.50-10.10.10.100]
+          addresses: [10.10.10.30-10.10.10.40]
           gateway: 10.10.10.1
           prefix: 24
       #   - name: ipv6Config
