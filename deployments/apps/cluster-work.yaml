@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/nilsherzig/homelab.git
     targetRevision: dev
-    path: ./deployments/clusters/homelab
+    path: ./deployments/clusters/work
   destination:
     server: "https://kubernetes.default.svc"
     namespace: default
