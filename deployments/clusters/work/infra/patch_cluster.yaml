@@ -3,7 +3,7 @@
   value: infra
 - op: replace
   path: /spec/topology/variables/1/value/host
-  value: 10.10.10.100
+  value: 10.10.10.130
 - op: replace
   path: /spec/topology/variables/3/value/addresses
-  value: [10.10.10.101-10.10.10.110]
+  value: [10.10.10.131-10.10.10.140]

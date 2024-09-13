@@ -1,9 +1,9 @@
 - op: replace
   path: /metadata/name
-  value: infra
+  value: mgmt
 - op: replace
   path: /spec/topology/variables/1/value/host
-  value: 10.10.10.100
+  value: 10.10.10.160
 - op: replace
   path: /spec/topology/variables/3/value/addresses
-  value: [10.10.10.101-10.10.10.110]
+  value: [10.10.10.161-10.10.10.170]
