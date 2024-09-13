@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cluster-work
+  name: clusters-work
   namespace: argocd
 spec:
   project: default
