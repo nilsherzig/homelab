@@ -1,9 +1,9 @@
 - op: replace
   path: /metadata/name
-  value: work-infra
+  value: homelab-infra
 - op: replace
   path: /spec/topology/variables/1/value/host
-  value: 10.10.10.20
+  value: 10.10.10.30
 - op: replace
   path: /spec/topology/variables/3/value/addresses
-  value: [10.10.10.120-10.10.10.130]
+  value: [10.10.10.130-10.10.10.140]

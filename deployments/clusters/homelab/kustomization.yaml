@@ -4,4 +4,8 @@ namePrefix: homelab-
 resources:
   - ../base/
 patches:
-  - path: ./cluster_patch.yaml
+  - path: ./patch_cluster.yaml
+    target:
+      group: cluster.x-k8s.io
+      version: v1beta1
+      kind: Cluster
