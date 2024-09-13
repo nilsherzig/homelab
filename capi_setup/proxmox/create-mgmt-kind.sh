@@ -23,4 +23,4 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 # apply argocd app which manages the clusters
 time sleep 1
-kubectl apply -f ../../argocd_apps/clusters.yaml
+kubectl apply -f ../../argo_apps_bootstrap.yaml
