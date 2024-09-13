@@ -1,6 +1,6 @@
 - op: replace
   path: /metadata/name
-  value: homelab-infra
+  value: infra
 - op: replace
   path: /spec/topology/variables/1/value/host
   value: 10.10.10.30
