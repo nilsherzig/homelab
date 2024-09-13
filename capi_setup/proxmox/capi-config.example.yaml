@@ -1,0 +1,6 @@
+PROXMOX_URL: "" # The Proxmox VE host
+PROXMOX_TOKEN: "" # The Proxmox VE TokenID for authentication
+PROXMOX_SECRET: "" # The secret associated with the TokenID
+
+EXP_CLUSTER_RESOURCE_SET: "true" # This enables the ClusterResourceSet feature that we are using to deploy CNI
+CLUSTER_TOPOLOGY: "true" # This enables experimental ClusterClass templating
