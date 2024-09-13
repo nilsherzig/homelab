@@ -22,6 +22,8 @@ spec:
       - name: ipv4Config
         value:
           addresses: [10.10.10.110-10.10.10.120]
+          gateway: 10.10.10.1
+          prefix: 24
       - name: cloneSpec
         value:
           sshAuthorizedKeys:
