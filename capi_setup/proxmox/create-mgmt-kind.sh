@@ -22,5 +22,5 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 # apply argocd app which manages the clusters
-time sleep 1
+sleep 1
 kubectl apply -f ../../argo_apps_bootstrap.yaml
