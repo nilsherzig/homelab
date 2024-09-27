@@ -10,12 +10,12 @@ spec:
     class: proxmox-clusterclass-cilium-v0.1.0
     version: v1.29.0
     controlPlane:
-      replicas: 1
+      replicas: 0
     workers:
       machineDeployments:
         - class: proxmox-worker
           name: proxmox-worker-pool
-          replicas: 1
+          replicas: 0
         - class: proxmox-loadbalancer
           name: proxmox-loadbalancer-pool
           replicas: 0
