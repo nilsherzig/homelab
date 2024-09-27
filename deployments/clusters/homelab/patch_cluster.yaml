@@ -3,13 +3,13 @@
   value: infra
 - op: replace
   path: /spec/topology/variables/1/value/host
-  value: 10.10.10.100
+  value: 10.10.10.105
 - op: replace
   path: /spec/topology/variables/3/value/addresses
-  value: [10.10.10.101-10.10.10.110]
-- op: replace
-  path: /spec/topology/controlPlane/replicas
-  value: 3
-- op: replace
-  path: /spec/topology/workers/machineDeployments/0/replicas
-  value: 3
+  value: [10.10.10.130-10.10.10.150]
+# - op: replace
+#   path: /spec/topology/controlPlane/replicas
+#   value: 3
+# - op: replace
+#   path: /spec/topology/workers/machineDeployments/0/replicas
+#   value: 3
