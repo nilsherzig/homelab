@@ -45,7 +45,7 @@ spec:
                 default:
                   bridge: vmbr0
               sourceNode: pve1
-              templateID: 101
+              templateID: 100
               numSockets: 1
               numCores: 4
               memoryMiB: 4096
@@ -54,7 +54,7 @@ spec:
                 default:
                   bridge: vmbr0
               sourceNode: pve1
-              templateID: 101
+              templateID: 100
               numSockets: 1
               numCores: 4
               memoryMiB: 4096
@@ -63,7 +63,7 @@ spec:
                 default:
                   bridge: vmbr0
               sourceNode: pve1
-              templateID: 101
+              templateID: 100
               numSockets: 1
               numCores: 4
               memoryMiB: 4096

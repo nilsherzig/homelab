@@ -9,7 +9,7 @@
   value: [10.10.10.131-10.10.10.150]
 - op: replace
   path: /spec/topology/controlPlane/replicas
-  value: 1
+  value: 3
 - op: replace
   path: /spec/topology/workers/machineDeployments/0/replicas
-  value: 1
+  value: 3
