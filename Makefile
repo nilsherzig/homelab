@@ -1,4 +1,5 @@
-export CILIUM_VERSION = 1.16.3
+# export CILIUM_VERSION = 1.16.3
+export CILIUM_VERSION = 1.14.1
 
 .PHONY: imagebuilder argo-get-pw install-cilium install-gateway-api new
 
@@ -30,14 +31,17 @@ install-cilium:	install-gateway-api
 
 	helm template cilium cilium/cilium  \
 	--set envoy.securityContext.capabilities.keepCapNetBindService=true \
+	--set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
     --set cgroup.autoMount.enabled=false \
     --set cgroup.hostRoot=/sys/fs/cgroup \
     --set envoy.securityContext.capabilities.envoy="{NET_ADMIN,NET_BIND_SERVICE,SYS_ADMIN}" \
+    --set envoy.securityContext.capabilities.keepCapNetBindService=true \
     --set hubble.relay.enabled=true \
     --set hubble.ui.enabled=true \
+    --set kubeProxyReplacement=true \
+	--set internalTrafficPolicy=local \
     --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
-    --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
-	--version $(CILIUM_VERSION) --set internalTrafficPolicy=local --namespace kube-system > ./templates/cilium.yaml
+	--version $(CILIUM_VERSION) --namespace kube-system > ./templates/cilium.yaml
 
 	kubectl create cm cilium --from-file=data=./templates/cilium.yaml
 	# helm template \
@@ -45,16 +49,11 @@ install-cilium:	install-gateway-api
  #    cilium/cilium \
  #    --namespace kube-system \
 	# --version $(CILIUM_VERSION) > ./templates/cilium.yaml
+    # --set ingressController.enabled=true \
+    # --set ingressController.hostNetwork.enabled=true \
 
 	# --set internalTrafficPolicy=local \
 
- #    --set envoy.securityContext.capabilities.envoy="{NET_BIND_SERVICE}" \
- #    --set envoy.securityContext.capabilities.keepCapNetBindService=true \
- #    --set hubble.relay.enabled=true \
- #    --set hubble.ui.enabled=true \
- #    --set ingressController.enabled=true \
- #    --set ingressController.hostNetwork.enabled=true \
- #    --set kubeProxyReplacement=true \
 
     # --api-versions 'gateway.networking.k8s.io/v1/GatewayClass' \
     # --set gatewayAPI.enabled=true \
