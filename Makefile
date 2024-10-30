@@ -25,7 +25,30 @@ create-kind-mgmt-cluster:
 crs-cilium:
 	@echo "Deploying cilium configmap to mgmt cluster"
 	helm repo add cilium https://helm.cilium.io/ --force-update
-	helm template cilium cilium/cilium --version $(CILIUM_VERSION) --set internalTrafficPolicy=local --namespace kube-system > ./templates/cilium.yaml
+
+	helm template \
+    cilium \
+    cilium/cilium \
+    --namespace kube-system \
+    --set bpf.hostLegacyRouting=false \
+	--set internalTrafficPolicy=local
+    --set cgroup.autoMount.enabled=false \
+    --set cgroup.hostRoot=/sys/fs/cgroup \
+    --set gatewayAPI.enabled=true \
+    --set gatewayAPI.hostNetwork.enabled=true \
+    --set hubble.relay.enabled=true \
+    --set hubble.ui.enabled=true \
+    --set ipam.mode=kubernetes \
+    --set k8sServiceHost=localhost \
+    --set k8sServicePort=7445 \
+    --set kubeProxyReplacement=true \
+    --set envoy.securityContext.capabilities.keepCapNetBindService=true \
+    --set envoy.securityContext.capabilities.envoy="{NET_ADMIN,NET_BIND_SERVICE,SYS_ADMIN}" \
+    --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
+    --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
+    --api-versions 'gateway.networking.k8s.io/v1/GatewayClass' \
+	--version $(CILIUM_VERSION) > ./templates/cilium.yaml
+
 	kubectl apply -f ./templates/cilium.yaml
 
 new: create-kind-mgmt-cluster crs-cilium
