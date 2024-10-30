@@ -1,10 +1,10 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env bash
 set -xe
 
 MGMT_CLUSTER_NAME=capi
 
 # create a local kind cluster to be used as a capi mgmt cluster
-# mount docker socket into kind cluster - this allows us to use the 
+# mount docker socket into kind cluster - this allows us to use the
 # docker infra provider later on
 kind delete cluster --name $MGMT_CLUSTER_NAME || true
 kind create cluster --name $MGMT_CLUSTER_NAME
@@ -15,6 +15,7 @@ clusterctl init --config ./capi-config.yaml --infrastructure proxmox --ipam in-c
 # apply cluster-class cilium, so we can create clusters with "--flavour cilium"
 # these clusters will be created with cilium as cni
 kubectl wait --for=condition=Ready nodes --all --timeout=600s
+sleep 5 # not sure why this is needed after the wait
 kubectl apply -f ./templates/cluster-class-cilium.yaml
 
 # install argocd

@@ -6,8 +6,12 @@ export PROXMOX_ISO_POOL = local
 export PROXMOX_BRIDGE = vmbr0
 export PROXMOX_STORAGE_POOL = local-lvm
 
-.PHONY: imagebuilder
+.PHONY: imagebuilder getArgoPW
 
 imagebuilder:
 	@echo "Building imagebuilder"
 	(cd image-builder && make deps-proxmox && make build-proxmox-ubuntu-2204)
+
+
+getArgoPW:
+	kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d | wl-copy
