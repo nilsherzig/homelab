@@ -11,5 +11,8 @@
   path: /spec/topology/controlPlane/replicas
   value: 3
 - op: replace
-  path: /spec/topology/workers/machineDeployments/0/replicas
+  path: /spec/topology/workers/machineDeployments/0/replicas # worker
+  value: 1
+- op: replace
+  path: /spec/topology/workers/machineDeployments/1/replicas # loadbalancer
   value: 1
