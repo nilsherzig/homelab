@@ -31,7 +31,7 @@ spec:
         value: [192.168.2.1]
       - name: ipv4Config
         value:
-          addresses: [192.168.2.100-192.168.2.120]
+          addresses: [192.168.2.101-192.168.2.120]
           gateway: 192.168.2.1
           prefix: 24
       - name: kubeProxy
