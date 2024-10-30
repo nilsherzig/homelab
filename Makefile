@@ -8,7 +8,7 @@ export PROXMOX_STORAGE_POOL = local-lvm
 
 export CILIUM_VERSION = 1.16.3
 
-.PHONY: imagebuilder getArgoPW crs-cilium
+.PHONY: imagebuilder getArgoPW install-cilium install-gateway-api new
 
 imagebuilder:
 	@echo "Building imagebuilder"
@@ -22,7 +22,7 @@ create-kind-mgmt-cluster:
 	@echo "Creating kind mgmt cluster"
 	(cd ./capi_setup/proxmox/ && make run)
 
-crs-cilium:
+install-cilium:	install-gateway-api
 	@echo "Deploying cilium configmap to mgmt cluster"
 	helm repo add cilium https://helm.cilium.io/ --force-update
 
@@ -50,5 +50,13 @@ crs-cilium:
 	--version $(CILIUM_VERSION) > ./templates/cilium.yaml
 
 	kubectl apply -f ./templates/cilium.yaml
+
+install-gateway-api:
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/standard/gateway.networking.k8s.io_gateways.yaml
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/standard/gateway.networking.k8s.io_referencegrants.yaml
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/standard/gateway.networking.k8s.io_grpcroutes.yaml
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml
 
 new: create-kind-mgmt-cluster crs-cilium
