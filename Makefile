@@ -49,7 +49,7 @@ install-cilium:	install-gateway-api
     --api-versions 'gateway.networking.k8s.io/v1/GatewayClass' \
 	--version $(CILIUM_VERSION) > ./templates/cilium.yaml
 
-	kubectl apply -f ./templates/cilium.yaml
+	kubectl create cm cilium --from-file=data=./templates/cilium.yaml
 
 install-gateway-api:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml
@@ -59,4 +59,4 @@ install-gateway-api:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/standard/gateway.networking.k8s.io_grpcroutes.yaml
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml
 
-new: create-kind-mgmt-cluster crs-cilium
+new: create-kind-mgmt-cluster install-cilium
