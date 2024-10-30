@@ -1,3 +1,4 @@
 image-builder
 capi_setup/proxmox/capi-config.yaml
 cluster-api-provider-proxmox
+templates/cilium.yaml
