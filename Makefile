@@ -19,11 +19,11 @@ cilium:
 getArgoPW:
 	kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d | wl-copy
 
-generate-cluster:
-	@echo "Generating cluster.yaml"
-	clusterctl generate cluster proxmox-cilium \
-		--infrastructure proxmox \
-		--kubernetes-version v1.29.0 \
-		--control-plane-machine-count 1 \
-		--worker-machine-count 3 \
-		--flavor cilium > cluster.yaml
+# generate-cluster:
+# 	@echo "Generating cluster.yaml"
+# 	clusterctl generate cluster proxmox-cilium \
+# 		--infrastructure proxmox \
+# 		--kubernetes-version v1.29.0 \
+# 		--control-plane-machine-count 1 \
+# 		--worker-machine-count 3 \
+# 		--flavor cilium > cluster.yaml
