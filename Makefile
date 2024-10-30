@@ -1,21 +1,21 @@
-export PROXMOX_URL = https://192.168.2.10:8006/api2/json
-export PROXMOX_USERNAME = root@pam!capi
-export PROXMOX_TOKEN = 2245782d-dbfe-4f9a-9a57-f2c24e44ddd0
-export PROXMOX_NODE = pve1
-export PROXMOX_ISO_POOL = local
-export PROXMOX_BRIDGE = vmbr0
-export PROXMOX_STORAGE_POOL = local-lvm
-
 export CILIUM_VERSION = 1.16.3
 
-.PHONY: imagebuilder getArgoPW install-cilium install-gateway-api new
+.PHONY: imagebuilder argo-get-pw install-cilium install-gateway-api new
 
 imagebuilder:
 	@echo "Building imagebuilder"
 	@echo "!!! make sure to add nfs-common as a package to the ubuntu imagebuilder user-data file !!!"
+
+	PROXMOX_URL = https://192.168.2.10:8006/api2/json
+	PROXMOX_USERNAME = root@pam!capi
+	PROXMOX_TOKEN = 2245782d-dbfe-4f9a-9a57-f2c24e44ddd0
+	PROXMOX_NODE = pve1
+	PROXMOX_ISO_POOL = local
+	PROXMOX_BRIDGE = vmbr0
+	PROXMOX_STORAGE_POOL = local-lvm
 	(cd image-builder && make deps-proxmox && make build-proxmox-ubuntu-2204)
 
-getArgoPW:
+argo-get-pw:
 	kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d | wl-copy
 
 create-kind-mgmt-cluster:
