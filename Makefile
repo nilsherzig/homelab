@@ -30,8 +30,8 @@ crs-cilium:
     cilium \
     cilium/cilium \
     --namespace kube-system \
+	--set internalTrafficPolicy=local \
     --set bpf.hostLegacyRouting=false \
-	--set internalTrafficPolicy=local
     --set cgroup.autoMount.enabled=false \
     --set cgroup.hostRoot=/sys/fs/cgroup \
     --set gatewayAPI.enabled=true \
