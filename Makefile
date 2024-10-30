@@ -6,24 +6,26 @@ export PROXMOX_ISO_POOL = local
 export PROXMOX_BRIDGE = vmbr0
 export PROXMOX_STORAGE_POOL = local-lvm
 
-.PHONY: imagebuilder getArgoPW
+export CILIUM_VERSION = 1.16.3
+
+.PHONY: imagebuilder getArgoPW crs-cilium
 
 imagebuilder:
 	@echo "Building imagebuilder"
+	@echo "!!! make sure to add nfs-common as a package to the ubuntu imagebuilder user-data file !!!"
 	(cd image-builder && make deps-proxmox && make build-proxmox-ubuntu-2204)
-
-cilium:
-	@echo "Deploying cilium configmap to mgmt cluster"
-	(cd ./cluster-api-provider-proxmox/ && make crs-cilium && kubectl create cm cilium  --from-file=data=templates/crs/cni/cilium.yaml)
 
 getArgoPW:
 	kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d | wl-copy
 
-# generate-cluster:
-# 	@echo "Generating cluster.yaml"
-# 	clusterctl generate cluster proxmox-cilium \
-# 		--infrastructure proxmox \
-# 		--kubernetes-version v1.29.0 \
-# 		--control-plane-machine-count 1 \
-# 		--worker-machine-count 3 \
-# 		--flavor cilium > cluster.yaml
+create-kind-mgmt-cluster:
+	@echo "Creating kind mgmt cluster"
+	(cd ./capi_setup/proxmox/ && make run)
+
+crs-cilium:
+	@echo "Deploying cilium configmap to mgmt cluster"
+	helm repo add cilium https://helm.cilium.io/ --force-update
+	helm template cilium cilium/cilium --version $(CILIUM_VERSION) --set internalTrafficPolicy=local --namespace kube-system > ./templates/cilium.yaml
+	kubectl apply -f ./templates/cilium.yaml
+
+new: create-kind-mgmt-cluster crs-cilium
