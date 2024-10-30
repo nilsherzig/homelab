@@ -26,30 +26,41 @@ install-cilium:	install-gateway-api
 	@echo "Deploying cilium configmap to mgmt cluster"
 	helm repo add cilium https://helm.cilium.io/ --force-update
 
-	helm template \
-    cilium \
-    cilium/cilium \
-    --namespace kube-system \
-	--set internalTrafficPolicy=local \
-    --set bpf.hostLegacyRouting=false \
+	kubectl delete cm cilium || true
+
+	helm template cilium cilium/cilium  \
+	--set envoy.securityContext.capabilities.keepCapNetBindService=true \
     --set cgroup.autoMount.enabled=false \
     --set cgroup.hostRoot=/sys/fs/cgroup \
-    --set gatewayAPI.enabled=true \
-    --set gatewayAPI.hostNetwork.enabled=true \
+    --set envoy.securityContext.capabilities.envoy="{NET_ADMIN,NET_BIND_SERVICE,SYS_ADMIN}" \
     --set hubble.relay.enabled=true \
     --set hubble.ui.enabled=true \
-    --set ipam.mode=kubernetes \
-    --set k8sServiceHost=localhost \
-    --set k8sServicePort=7445 \
-    --set kubeProxyReplacement=true \
-    --set envoy.securityContext.capabilities.keepCapNetBindService=true \
-    --set envoy.securityContext.capabilities.envoy="{NET_ADMIN,NET_BIND_SERVICE,SYS_ADMIN}" \
     --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
     --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
-    --api-versions 'gateway.networking.k8s.io/v1/GatewayClass' \
-	--version $(CILIUM_VERSION) > ./templates/cilium.yaml
+	--version $(CILIUM_VERSION) --set internalTrafficPolicy=local --namespace kube-system > ./templates/cilium.yaml
 
 	kubectl create cm cilium --from-file=data=./templates/cilium.yaml
+	# helm template \
+ #    cilium \
+ #    cilium/cilium \
+ #    --namespace kube-system \
+	# --version $(CILIUM_VERSION) > ./templates/cilium.yaml
+
+	# --set internalTrafficPolicy=local \
+
+ #    --set envoy.securityContext.capabilities.envoy="{NET_BIND_SERVICE}" \
+ #    --set envoy.securityContext.capabilities.keepCapNetBindService=true \
+ #    --set hubble.relay.enabled=true \
+ #    --set hubble.ui.enabled=true \
+ #    --set ingressController.enabled=true \
+ #    --set ingressController.hostNetwork.enabled=true \
+ #    --set kubeProxyReplacement=true \
+
+    # --api-versions 'gateway.networking.k8s.io/v1/GatewayClass' \
+    # --set gatewayAPI.enabled=true \
+    # --set gatewayAPI.hostNetwork.enabled=true \
+    # --set k8sServiceHost=192.168.2.100 \
+    # --set k8sServicePort=7445 \
 
 install-gateway-api:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.1.0/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml

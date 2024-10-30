@@ -28,7 +28,8 @@ if [[ "$cluster" == "default" ]]; then
   echo "KUBECONFIG is set to $HOME/.kube/config"
 else
   # Get the kubeconfig for the selected cluster and save it to a temporary file
-  KUBECONFIG_TMP=$(mktemp)
+  # KUBECONFIG_TMP=$(mktemp)
+  KUBECONFIG_TMP="/tmp/kubeconfig-$cluster"
 
   if ! clusterctl get kubeconfig "$cluster" > "$KUBECONFIG_TMP"; then
     echo "Failed to get kubeconfig for cluster $cluster."

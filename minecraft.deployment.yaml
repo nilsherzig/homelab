@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mc-fam
+spec:
+  selector:
+    app: mc-fam
+  ports:
+    - protocol: TCP
+      port: 25565
+      targetPort: 25565
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mc-fam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mc-fam
+  template:
+    metadata:
+      labels:
+        app: mc-fam
+    spec:
+      containers:
+        - name: mc-fam
+          image: itzg/minecraft-server
+          ports:
+            - containerPort: 25565
+          env:
+            - name: EULA
+              value: "TRUE"
+          volumeMounts:
+            - name: mc-data
+              mountPath: /data
+      volumes:
+        - name: mc-data
+          persistentVolumeClaim:
+            claimName: nfs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs
+spec:
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: "192.168.2.118"
+    path: "/mnt/fast/kubernetes/mc-fam"
+  # mountOptions:
+  #   - nfsvers=4.2
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 1Mi
+  volumeName: nfs
