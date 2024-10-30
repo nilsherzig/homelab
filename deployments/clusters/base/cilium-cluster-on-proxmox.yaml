@@ -28,8 +28,7 @@ spec:
           host: 192.168.2.100
           port: 6443
       - name: dnsServers
-        # value: [192.168.2.1]
-        value: [1.1.1.1, 8.8.8.8]
+        value: [192.168.2.1]
       - name: ipv4Config
         value:
           addresses: [192.168.2.101-192.168.2.120]
@@ -48,8 +47,8 @@ spec:
               sourceNode: pve1
               templateID: 100
               numSockets: 1
-              numCores: 8
-              memoryMiB: 8192
+              numCores: 4
+              memoryMiB: 4096
             workerNode:
               network:
                 default:
@@ -57,7 +56,7 @@ spec:
               sourceNode: pve1
               templateID: 100
               numSockets: 1
-              numCores: 8
+              numCores: 4
               memoryMiB: 8192
             loadBalancer:
               network:
@@ -66,7 +65,7 @@ spec:
               sourceNode: pve1
               templateID: 100
               numSockets: 1
-              numCores: 8
+              numCores: 4
               memoryMiB: 8192
           sshAuthorizedKeys:
             - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINo+Mazsj4x9O5mGKLVwic8zUWmg/gihsEK3ZLZ7yt3f nils@nixos
